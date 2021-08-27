@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       peripheralsList.textContent='';
       peripheralsArray.forEach(el => {
         let element = `
-        <li class="peripherals-list_item" data-peripheralname="${el}">
+        <li class="peripherals-list_item" >
             <span class="peripherals-list_item-text">${el}</span>
             <button class="button-remove-item">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Optional parameters
         direction: 'horizontal',
         loop: true,
+        allowTouchMove: false,
       
         // If we need pagination
         pagination: {

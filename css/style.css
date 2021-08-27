@@ -41,7 +41,9 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    flex-direction: column;  
+    flex-direction: column;
+    border: 2px double #bebebe;
+    border-radius: 5px;  
 }
 .slider-header{
     display: flex;
@@ -62,6 +64,7 @@
 }
 .peripherals-item:hover{
     opacity: 1;
+    cursor: pointer;
     
 }
 .items-panel{
@@ -72,6 +75,8 @@
     align-items: center;
     justify-content: start;
     flex-direction: column;
+    border: 2px double #bebebe;
+    border-radius: 5px;  
 }
 .peripherals-list{
     width: 200px;
@@ -113,6 +118,6 @@
     margin: 0 10px;
 }
 .button-remove-item{
-    /*border: none;*/
+    border: none;
     cursor: pointer;
 }
