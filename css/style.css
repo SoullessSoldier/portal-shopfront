@@ -121,3 +121,13 @@
     border: none;
     cursor: pointer;
 }
+.carousel-control-prev, .carousel-control-next{
+    width: 50px;
+    
+}
+.carousel-control-prev-icon, .carousel-control-next-icon{
+    background-color: #3596F5;;
+}
+.carousel-indicators button{
+    background-color: #3596F5;;
+}
