@@ -23,8 +23,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let peripheralsArray = [];
 
+  const getData = async () => {
+    const data = await fetch('js/db-3-items.json');
+
+    if(data.ok) {
+        return data.json();
+    } else {
+        throw new Error(`Данные не были получены, ошибка ${data.status} ${data.statusText}`);
+    }
+  };
+
+  const getGoods = () => {
+    getData()
+    .then(data =>{
+        console.log(data);
+        
+    })
+    .catch(err=>{
+        console.log(err);
+    });
+  };
+
   const init = () => {
     btnSendMessage.disabled = true;
+    getGoods();
   };
 
   const isArrayEmpty = (array) => {
