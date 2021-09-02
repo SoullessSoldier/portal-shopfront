@@ -101,7 +101,7 @@
 }
 .button-primary{
     margin-top: 65px;
-    width: 200px;
+    width: 210px;
     height: 40px;
     background: #3596F5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -142,4 +142,121 @@
 }
 .btn-indicator{
     background-color: #3596F5 !important;
+}
+.modal-dialog{
+    min-width: 900px;
+   
+}
+
+.wrapper {
+    /*min-width: 900px;
+    min-height: 450px;*/
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.printer-card {
+    width: 250px;
+    height: 300px;
+    border-radius: 5px;
+    padding: 5px;
+    background: #fff;       
+    position: relative;
+    display: flex;
+    /*align-items: flex-end;*/
+    transition: 0.4s ease-out;
+    box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+/*.printer-card:hover {
+    transform: translateY(20px);
+}*/
+.printer-card:hover:before {
+    opacity: 1;
+}
+.printer-card:hover .info {
+    opacity: 1;
+    transform: translateY(0px);
+}
+.printer-card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    transition: 0.5s;
+    opacity: 0;
+}
+.printer-card{
+    position: relative;
+}
+.printer-card .printer-title{
+    position: absolute;
+    top: 255px;
+    left: 10px;
+    display: inline-block;
+    
+    
+}
+.printer-card img {
+    width: 90%;
+    height: 90%;
+    -o-object-fit: contain;
+        object-fit:contain;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    border-radius: 5px;
+}
+.printer-card .info {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    z-index: 3;
+    color: white;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.5s;
+}
+.printer-card .info .info-title {
+    margin-bottom: 5px;
+}
+.printer-card .info .info-label {
+    margin: 0px;
+}
+.printer-card .info .info-text {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 15px;
+    margin-top: 8px;
+}
+.printer-card .info button {
+    /*padding: 0.6rem;*/
+    position: absolute;
+    left: 3px;
+    bottom: -20px;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+.printer-card .info button:hover {
+    background: dodgerblue;
+    color: white;
+}
+.button-primary{
+    text-transform: uppercase;
 }

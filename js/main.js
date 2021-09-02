@@ -15,13 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
       'tcd':'Тонкий клиент',
       'flex':'Флекс-ноутбук',
   };
-  const peripheralsItemList = document.querySelectorAll('.peripherals-item');
-  const peripheralsList = document.querySelector('.peripherals-list');
+  const peripheralsItemList = document.querySelectorAll('.peripherals-item'),
+    peripheralsList = document.querySelector('.peripherals-list'),
+    btnSendMessage = document.getElementById('sendMessage'),
+    modalPrinters = document.querySelector('#modalPrinters'),
+    wrapperPrinterList = modalPrinters.querySelector('.wrapper'),
+    areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]');
 
-  const btnSendMessage = document.getElementById('sendMessage');
-  
 
   let peripheralsArray = [];
+
+  let printersObj;
 
   const getData = async () => {
     const data = await fetch('js/db-3-items.json');
@@ -35,12 +39,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getGoods = () => {
     getData()
-    .then(data =>{
-        console.log(data);
-        
+    .then(data => {
+        printersObj = data;   
     })
     .catch(err=>{
         console.log(err);
+    });
+  };
+
+  const fillPrinterCard = (data) => {
+    let cover = data.cover,
+      title = data.model,
+      serialNum = data.serial,
+      ipAddress = data.ipAddress,
+      status = data.status,//если статус не ок, то покажем восклицательный знак
+      toner = data.toner;//инфо будет в виде блоков, залитых цветом и внутри число
+    let card = `
+      <div class="printer-card">
+        <img src=${cover} alt="img: printer image">
+        <h6 class="printer-title">${title}</h6>                           
+        <div class="info">
+            <!--<h6 class="info-title"></h6>-->
+            <h6 class="info-label">модель:</h6>
+            <span class="info-text">${title}</span>
+            <h6 class="info-label">IP-адрес:</h6>
+            <span class="info-text">${ipAddress}</span>
+            <h6 class="info-label">серийный номер:</h6>
+            <span class="info-text">${serialNum}</span>
+            <h6 class="info-label">Картриджи:</h6>
+            <span class="info-text">тут инфо о тонере</span>
+            <button class="button button-primary add-to-cart">Добавить в заявку</button>
+        </div>
+      </div>
+      `;
+    return card;
+  };
+
+  const renderPrinterList = (data) => {
+    wrapperPrinterList.textContent = '';
+    if (data.length < 4) {
+      data.forEach(
+        item => {
+          let element = fillPrinterCard(item);
+          wrapperPrinterList.insertAdjacentHTML('beforeend', element);
+        }
+      );      
+    } else {
+      //Тут срендерить в бутстраповскую карусель
+    }
+    let btnAddPrinterToCart = document.querySelectorAll('.add-to-cart');
+    btnAddPrinterToCart.forEach(item => {
+      item.addEventListener('click', e => {
+        const printerName = e.target.parentNode.parentNode.querySelector('.printer-title').textContent;
+        addItemToCart(printerName);
+      });
     });
   };
 
@@ -84,16 +136,25 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
   };
 
+  const addItemToCart = (item) => {
+    if (peripheralsArray.length < 5) {
+      peripheralsArray.push(item);
+      renderPeripheralsList();
+      btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
+      return true;
+    } else {
+      alert("Вы уже выбрали пять элементов!");
+      return false;
+    }
+  };
+
   peripheralsItemList.forEach(el => {
       el.addEventListener('click', (e)=>{
           let peripheralName = objPeripheral[e.target.dataset.peripheralid] || 'устройство не опознано';
-          if (peripheralsArray.length < 5) {
-            peripheralsArray.push(peripheralName);
-            renderPeripheralsList();
-            btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
+          if(e.target.dataset.peripheralid !== 'printer'){
+            addItemToCart(peripheralName);
           } else {
-            alert("Вы уже выбрали пять элементов!");
-            
+            renderPrinterList(printersObj.printerList);
           }
       });
   });
@@ -103,32 +164,14 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(`data: ${data}`);
   });
 
+  areaPrinters.forEach(item => {
+    item.setAttribute('data-bs-toggle','modal');
+    item.setAttribute('data-bs-target','#modalPrinters');
+  });
+
   
 
-  if (document.querySelector('.swiper')){
-    const swiper = new Swiper('.swiper', {
-      // Optional parameters
-      direction: 'horizontal',
-      loop: true,
-      allowTouchMove: false,
-    
-      // If we need pagination
-      pagination: {
-        el: '.swiper-pagination',
-      },
-    
-      // Navigation arrows
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    
-      // And if we need scrollbar
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
-    });
-  }
+  
 
   init();    
 
