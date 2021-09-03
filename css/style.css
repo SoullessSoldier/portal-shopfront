@@ -254,7 +254,7 @@
     transition: 0.4s ease;
 }
 .printer-card .info button:hover {
-    background: dodgerblue;
+    background: #3596F5;
     color: white;
 }
 .button-primary{

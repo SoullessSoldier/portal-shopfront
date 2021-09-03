@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
       item.addEventListener('click', e => {
         const printerName = e.target.parentNode.parentNode.querySelector('.printer-title').textContent;
         addItemToCart(printerName);
+        modalPrinters.querySelector('.btn-close').click();
       });
     });
   };
