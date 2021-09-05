@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Demo styles -->
+    <style>
+      
+      .wrapper1{
+          margin: 50px auto;
+          width: 900px;
+          height: 400px;
+      }
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+      /*
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }*/
+
+      .swiper-pagination-bullet {
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 12px;
+        color: #000;
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .swiper-pagination-bullet-active {
+        color: #fff;
+        background: #007aff;
+      }
+    </style>
+  </head>
+
+  
+<div class="wrapper1">
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+            <div class="printer-card ">
+                <img src="img/printers/hp-m227.png" alt="img: printer image">
+                <h6 class="printer-title">Hewlett-Packard Laserjet Pro m227dfn</h6>                           
+                <div class="info">
+                    <!--<h6 class="info-title"></h6>-->
+                    <h6 class="info-label">модель:</h6>
+                    <span class="info-text">Hewlett-Packard Laserjet Pro m227dfn</span>
+                    <h6 class="info-label">IP-адрес:</h6>
+                    <span class="info-text">192.168.100.111</span>
+                    <h6 class="info-label">серийный номер:</h6>
+                    <span class="info-text">3997554216</span>
+                    <h6 class="info-label">Картриджи:</h6>
+                    <span class="info-text">тут инфо о тонере</span>
+                    <button class="button button-primary add-to-cart">Добавить в заявку</button>
+                </div>
+            </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="printer-card ">
+                    <img src="img/printers/xerox-b405.jpg" alt="img: printer image">
+                    <h6 class="printer-title">Xerox Versalink b405</h6>                           
+                    <div class="info">
+                        <!--<h6 class="info-title"></h6>-->
+                        <h6 class="info-label">модель:</h6>
+                        <span class="info-text">Xerox Versalink b405</span>
+                        <h6 class="info-label">IP-адрес:</h6>
+                        <span class="info-text">192.168.100.12</span>
+                        <h6 class="info-label">серийный номер:</h6>
+                        <span class="info-text">1797599213</span>
+                        <h6 class="info-label">Картриджи:</h6>
+                        <span class="info-text">тут инфо о тонере</span>
+                        <button class="button button-primary add-to-cart">Добавить в заявку</button>
+                    </div>
+                </div>
+            </div>
+          <div class="swiper-slide">
+            <div class="printer-card ">
+                <img src="img/printers/hp-m451.jpg" alt="img: printer image">
+                <h6 class="printer-title">Hewlett-Packard LaserJet Color m451</h6>                           
+                <div class="info">
+                    <!--<h6 class="info-title"></h6>-->
+                    <h6 class="info-label">модель:</h6>
+                    <span class="info-text">Hewlett-Packard LaserJet Color m451</span>
+                    <h6 class="info-label">IP-адрес:</h6>
+                    <span class="info-text">192.168.100.13</span>
+                    <h6 class="info-label">серийный номер:</h6>
+                    <span class="info-text">5697554970</span>
+                    <h6 class="info-label">Картриджи:</h6>
+                    <span class="info-text">тут инфо о тонере</span>
+                    <button class="button button-primary add-to-cart">Добавить в заявку</button>
+                </div>
+            </div>
+          </div>
+          <div class="swiper-slide">Slide 4</div>
+          <div class="swiper-slide">Slide 5</div>
+          <div class="swiper-slide">Slide 6</div>
+          <div class="swiper-slide">Slide 7</div>
+          <div class="swiper-slide">Slide 8</div>
+          <div class="swiper-slide">Slide 9</div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>  
+</div>
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+          renderBullet: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + "</span>";
+          },
+        },
+        slidesPerView: 3,
+        spaceBetween: 10,
+      });
+    </script>
+  </body>
+</html>

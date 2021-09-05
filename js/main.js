@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     peripheralsList = document.querySelector('.peripherals-list'),
     btnSendMessage = document.getElementById('sendMessage'),
     modalPrinters = document.querySelector('#modalPrinters'),
-    wrapperPrinterList = modalPrinters.querySelector('.wrapper'),
+    wrapperPrinterList = modalPrinters.querySelector('.wrapper1'),
     areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]');
 
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let printersObj;
 
   const getData = async () => {
-    const data = await fetch('js/db-3-items.json');
+    const data = await fetch('js/db-5-items.json');
 
     if(data.ok) {
         return data.json();
@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderPrinterList = (data) => {
     wrapperPrinterList.textContent = '';
+    //Обработать data.length===0
     if (data.length < 4) {
       data.forEach(
         item => {
@@ -85,8 +86,57 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );      
     } else {
-      //Тут срендерить в бутстраповскую карусель
+      //Тут срендерить в карусель
+      const initSwiperHTML = `
+      <!-- Slider main container -->
+      <div class="swiper swiperPrinter">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+                    
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+      `;
+      wrapperPrinterList.insertAdjacentHTML('beforeend', initSwiperHTML);
+      let swiperWrapper = wrapperPrinterList.querySelector('.swiper-wrapper');
+
+      data.forEach(
+        item => {
+          let element = fillPrinterCard(item);
+          swiperWrapper.insertAdjacentHTML('beforeend',`<div class="swiper-slide">${element}</div>`);
+          
+        }
+      );
+
+      setTimeout(()=>{let swiper = new Swiper(".swiperPrinter", {
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+          type: 'bullets',
+          renderBullet: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + "</span>";
+          },
+        },
+        slidesPerView: 3,
+        spaceBetween: 10,
+      })}, 1500);
+
+       
+      
+      
+    
     }
+
     let btnAddPrinterToCart = document.querySelectorAll('.add-to-cart');
     btnAddPrinterToCart.forEach(item => {
       item.addEventListener('click', e => {
@@ -174,6 +224,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
 
-  init();    
-
+  init();
+  /*
+  let swiper = new Swiper(".mySwiper", {
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+      renderBullet: function (index, className) {
+        return '<span class="' + className + '">' + (index + 1) + "</span>";
+      },
+    },
+    slidesPerView: 3,
+    spaceBetween: 10,
+  });
+*/
 });
