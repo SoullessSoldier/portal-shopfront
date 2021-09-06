@@ -62,7 +62,69 @@
                 {"yellow":"15"},
                 {"drum":"20"}
             ]
+        },
+        {
+            "model":"Hewlett-Packard Laserjet Pro m227dfn",
+            "serial":"3997554216",
+            "cover":"img/printers/hp-m227.png",
+            "ipAddress": "192.168.100.111",
+            "status": "ok",
+            "toner":[
+                {"black":"100"}
+            ]        
+        },
+        {
+            "model":"Xerox Versalink b405",
+            "cover":"img/printers/xerox-b405.jpg",
+            "serial":"1797599213",
+            "ipAddress": "192.168.100.12",
+            "status": "ok",
+            "toner":[
+                {"black":"45"},
+                {"drum":"20"}
+            ]
+        },
+        {
+            "model":"Hewlett-Packard LaserJet Color m451",
+            "serial":"5697554970",
+            "cover":"img/printers/hp-m451.jpg",
+            "ipAddress": "192.168.100.13",
+            "status": "ok",
+            "toner":[
+                {"black":"45"},
+                {"cyan":"45"},
+                {"magenta":"30"},
+                {"yellow":"15"},
+                {"drum":"20"}
+            ]
+        },
+        {
+            "model":"Xerox Workcentre 3225",
+            "serial":"666777888999",
+            "cover":"img/printers/xerox-3225.jpg",
+            "ipAddress": "192.168.100.131",
+            "status": "ok",
+            "toner":[
+                {"black":"45"},
+                {"cyan":"45"},
+                {"magenta":"30"},
+                {"yellow":"15"},
+                {"drum":"20"}
+            ]
+        },
+        {
+            "model":"Xerox Workcentre 3220",
+            "serial":"112233445566",
+            "cover":"img/printers/xerox-3220.jpg",
+            "ipAddress": "102.222.111.221",
+            "status": "ok",
+            "toner":[
+                {"black":"45"},
+                {"cyan":"45"},
+                {"magenta":"30"},
+                {"yellow":"15"},
+                {"drum":"20"}
+            ]
         }
-        
     ]    
 }

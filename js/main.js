@@ -113,28 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
           
         }
       );
-
-      setTimeout(()=>{let swiper = new Swiper(".swiperPrinter", {
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-          type: 'bullets',
-          renderBullet: function (index, className) {
-            return '<span class="' + className + '">' + (index + 1) + "</span>";
+      /*code below is incredible. but it works
+        swiper may not load immediately
+      */
+      setTimeout(()=>{
+        let swiper = new Swiper(".swiperPrinter", {
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
           },
-        },
-        slidesPerView: 3,
-        spaceBetween: 10,
-      })}, 1500);
-
-       
-      
-      
-    
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            type: 'bullets',
+            renderBullet: function (index, className) {
+              return '<span class="' + className + '">' + (index + 1) + "</span>";
+            },
+          },
+          slidesPerView: 3,
+          spaceBetween: 40,
+      })
+      }, 200);
     }
 
     let btnAddPrinterToCart = document.querySelectorAll('.add-to-cart');

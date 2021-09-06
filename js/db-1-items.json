@@ -1,0 +1,14 @@
+{
+    "printerList":[
+        {
+            "model":"Hewlett-Packard Laserjet Pro m227dfn",
+            "serial":"3997554216",
+            "cover":"img/printers/hp-m227.png",
+            "ipAddress": "192.168.100.111",
+            "status": "ok",
+            "toner":[
+                {"black":"100"}
+            ]        
+        }
+    ]    
+}

@@ -268,8 +268,19 @@
 .swiper {
     width: 100%;
     height: 100%;
+    padding: 5px 10px 25px 10px;
   }
 
+  .swiper-slide{
+      width: 250px;
+      height: 300px;
+      display: flex;
+      justify-self: center;
+  }
+.swiper-pagination{
+    position: relative;
+    margin: auto;
+}
 .swiper-pagination-bullet {
     width: 20px;
     height: 20px;
@@ -279,6 +290,7 @@
     color: #000;
     opacity: 1;
     background: rgba(0, 0, 0, 0.2);
+    margin-right: 5px;
 }
 
 .swiper-pagination-bullet-active {
