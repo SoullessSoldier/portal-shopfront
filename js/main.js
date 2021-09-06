@@ -25,10 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let peripheralsArray = [];
 
-  let printersObj;
+  let printersArray;
 
   const getData = async () => {
-    const data = await fetch('js/db-5-items.json');
+    //const data = await fetch('js/db-10-items.json');
+    const data = await fetch('printers_db.json');
 
     if(data.ok) {
         return data.json();
@@ -40,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const getGoods = () => {
     getData()
     .then(data => {
-        printersObj = data;   
+        //printersArray = data.printerList;   
+        printersArray = data.ppp;   
     })
     .catch(err=>{
         console.log(err);
@@ -48,12 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const fillPrinterCard = (data) => {
-    let cover = data.cover,
+
+    //destructuring assignment
+    //let {cover, model: title, serial: serialNum, ipAddress, status, toner, ...rest} = data;
+    let {model_printer__image: cover, model_printer__model: title, serial_number_printer: serialNum,
+      ip_address_printer: ipAddress,  black_cartridge, cyan_cartridge, magenta_cartridge,
+      yellow_cartridge, drum_cartridge, ...rest} = data;
+    /*  
       title = data.model,
       serialNum = data.serial,
       ipAddress = data.ipAddress,
       status = data.status,//если статус не ок, то покажем восклицательный знак
       toner = data.toner;//инфо будет в виде блоков, залитых цветом и внутри число
+    */
+
     let card = `
       <div class="printer-card">
         <img src=${cover} alt="img: printer image">
@@ -78,7 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const renderPrinterList = (data) => {
     wrapperPrinterList.textContent = '';
     //Обработать data.length===0
-    if (data.length < 4) {
+    if (data.length === 0) {
+      let element = `Тут данных нет  😢 `;
+      wrapperPrinterList.insertAdjacentHTML('beforeend', element);
+    } else if (data.length < 4) {
       data.forEach(
         item => {
           let element = fillPrinterCard(item);
@@ -204,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if(e.target.dataset.peripheralid !== 'printer'){
             addItemToCart(peripheralName);
           } else {
-            renderPrinterList(printersObj.printerList);
+            renderPrinterList(printersArray);
           }
       });
   });
@@ -224,21 +237,5 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
   init();
-  /*
-  let swiper = new Swiper(".mySwiper", {
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-      renderBullet: function (index, className) {
-        return '<span class="' + className + '">' + (index + 1) + "</span>";
-      },
-    },
-    slidesPerView: 3,
-    spaceBetween: 10,
-  });
-*/
+  
 });
