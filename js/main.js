@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     peripheralsList = document.querySelector('.peripherals-list'),
     btnSendMessage = document.getElementById('sendMessage'),
     modalPrinters = document.querySelector('#modalPrinters'),
-    wrapperPrinterList = modalPrinters.querySelector('.wrapper1'),
+    wrapperPrinterList = document.getElementById('wrapperPrinterList'),
     areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]');
 
 
@@ -56,6 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let {model_printer__image: cover, model_printer__model: title, serial_number_printer: serialNum,
       ip_address_printer: ipAddress,  black_cartridge, cyan_cartridge, magenta_cartridge,
       yellow_cartridge, drum_cartridge, ...rest} = data;
+    
+    let tonerBlackObj = {value: black_cartridge, color: 'black'},
+        tonerCyanObj = {value: cyan_cartridge, color: 'cyan'},
+        tonerMagentaObj = {value: magenta_cartridge, color: 'magenta'},
+        tonerYellowObj = {value: yellow_cartridge, color: 'yellow'},
+        tonerDrumObj = {value: drum_cartridge, color: 'drum'};
+
+    
+    let tonerObjArray = [tonerBlackObj, tonerCyanObj, tonerMagentaObj,
+      tonerYellowObj, tonerDrumObj];
+    
     /*  
       title = data.model,
       serialNum = data.serial,
@@ -77,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h6 class="info-label">серийный номер:</h6>
             <span class="info-text">${serialNum}</span>
             <h6 class="info-label">Картриджи:</h6>
-            <span class="info-text">тут инфо о тонере</span>
+            ${renderTonerInfo(tonerObjArray)}     
             <div class="info-button-group">
             <button class="button button-secondary add-to-cart order-toner">Заказать картриджи</button>
             <button class="button button-secondary add-to-cart order-service">Заказать обслуживание</button>
@@ -86,6 +97,32 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
       `;
+    
+    function renderTonerInfo (tonerObjArray) {
+      let element = '';
+      if (tonerObjArray.some(element => {
+        return element.value !== null ? true : false;
+        }
+      )) {
+        //Да, тут дичь! Эх, где же JSX...
+        element += '<div class="toner-info">';
+        for (let item of tonerObjArray){
+          if (item.value !== null) {
+            element += `
+            <div class="toner-item ${item.color}">
+             <span class="toner-text">${item.value}%</span>
+            </div>
+            `;
+          }
+        }
+        element += '</div>';  
+      } else {
+        element = '<span class="info-text toner-dummy">нет информации о тонере</span>';
+      }
+      return element;
+    };
+    
+
     return card;
   };
 
@@ -96,6 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let element = `Тут данных нет  😢 `;
       wrapperPrinterList.insertAdjacentHTML('beforeend', element);
     } else if (data.length < 4) {
+      wrapperPrinterList.classList.add('wrapper');
+      wrapperPrinterList.classList.remove('wrapper1');
       data.forEach(
         item => {
           let element = fillPrinterCard(item);
@@ -103,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );      
     } else {
+      wrapperPrinterList.classList.remove('wrapper');
+      wrapperPrinterList.classList.add('wrapper1');
       //Тут срендерить в карусель
       const initSwiperHTML = `
       <!-- Slider main container -->
