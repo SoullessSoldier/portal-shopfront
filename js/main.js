@@ -78,7 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="info-text">${serialNum}</span>
             <h6 class="info-label">Картриджи:</h6>
             <span class="info-text">тут инфо о тонере</span>
-            <button class="button button-primary add-to-cart">Добавить в заявку</button>
+            <div class="info-button-group">
+            <button class="button button-secondary add-to-cart order-toner">Заказать картриджи</button>
+            <button class="button button-secondary add-to-cart order-service">Заказать обслуживание</button>
+            </div>
+            
         </div>
       </div>
       `;
@@ -152,8 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let btnAddPrinterToCart = document.querySelectorAll('.add-to-cart');
     btnAddPrinterToCart.forEach(item => {
       item.addEventListener('click', e => {
-        const printerName = e.target.parentNode.parentNode.querySelector('.printer-title').textContent;
-        addItemToCart(printerName);
+        const printerName = e.target.parentNode.parentNode.parentNode.querySelector('.printer-title').textContent;
+        let prefixOrder = e.target.classList.contains('order-toner') ? 
+          'Заказ картриджа для ' : e.target.classList.contains('order-service') ? 
+          'Заказ обслуживания для ' : '';
+        addItemToCart(prefixOrder + printerName);
         modalPrinters.querySelector('.btn-close').click();
       });
     });
