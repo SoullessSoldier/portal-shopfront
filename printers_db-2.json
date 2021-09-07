@@ -1,0 +1,40 @@
+﻿{
+    "ppp": [{
+        "id": 20,
+        "name_printer": "XRX9C934E471D4D",
+        "serial_number_printer": "3365743087",
+        "ip_address_printer": "111.222.333.444",
+        "model_printer__model": "Xerox WorkCentre 3225",
+        "connection_type": "LAN",
+        "model_printer__image": "img/printers/xerox-3225.jpg",
+        "model_printer__type_printer": "\u0427\u0435\u0440\u043d\u043e-\u0431\u0435\u043b\u044b\u0439",
+        "black_cartridge": 98,
+        "cyan_cartridge": null,
+        "magenta_cartridge": null,
+        "yellow_cartridge": null,
+        "drum_cartridge": 44,
+        "date_create": "2021-07-29T03:15:49.447Z",
+        "location_printer__city": "\u041a\u0430\u043b\u0438\u043d\u0438\u043d\u0433\u0440\u0430\u0434",
+        "location_printer__branch_number": 1111,
+        "location_printer__name_branch": "\u041a\u0430\u043b\u0438\u043d\u0438\u043d\u0433\u0440\u0430\u0434"
+    }, {
+        "id": 21,
+        "name_printer": "XRX9C934E471DF7",
+        "serial_number_printer": "3365742889",
+        "ip_address_printer": "222.333.444.111",
+        "model_printer__model": "Xerox WorkCentre 3225",
+        "connection_type": "LAN",
+        "model_printer__image": "img/printers/xerox-3225.jpg",
+        "model_printer__type_printer": "\u0427\u0435\u0440\u043d\u043e-\u0431\u0435\u043b\u044b\u0439",
+        "black_cartridge": 27,
+        "cyan_cartridge": 100,
+        "magenta_cartridge": 99,
+        "yellow_cartridge": 98,
+        "drum_cartridge": 67,
+        "date_create": "2021-07-29T03:15:49.464Z",
+        "location_printer__city": "\u041a\u0430\u043b\u0438\u043d\u0438\u043d\u0433\u0440\u0430\u0434",
+        "location_printer__branch_number": 1111,
+        "location_printer__name_branch": "\u041a\u0430\u043b\u0438\u043d\u0438\u043d\u0433\u0440\u0430\u0434"
+    }
+  ]
+}
