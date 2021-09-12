@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSendMessage = document.getElementById('sendMessage'),
     modalPrinters = document.querySelector('#modalPrinters'),
     wrapperPrinterList = document.getElementById('wrapperPrinterList'),
-    areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]');
+    areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]'),
+    notePeripherals = document.querySelector('#notePeripherals');
 
 
   let peripheralsArray = [];
@@ -48,6 +49,54 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(err);
     });
   };
+
+  const renderOrderTonerBlock = (targetElement, printerName) => {
+    let parent = targetElement.parentNode.parentNode.parentNode;
+    let rect = parent.getBoundingClientRect(),
+      left = rect.left + rect.width / 4,
+      top = rect.top + rect.height / 4;
+    const modalToner = document.querySelector('.modal-toner'),
+      btnOrderMain = document.querySelector('.order-main'),
+      btnOrderReserve = document.querySelector('.order-reserve');
+    
+    btnOrderMain.dataset.printerName = printerName;
+    btnOrderReserve.dataset.printerName = printerName;
+    
+    modalToner.style.top = top + 'px';
+    modalToner.style.left = left + 'px';
+    modalToner.style.display = 'block';
+  };
+
+  const renderOrderTonerStuff = () => {
+    const btnOrderTonerItems = document.querySelectorAll('.order-toner'), 
+        closeOrderTonerItems = document.querySelectorAll('.close-order-toner'),          
+        orderGroup = document.querySelector('.order-group');          
+      btnOrderTonerItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          let printerName = e.target.closest('.printer-card').querySelector('.printer-title').textContent;              
+          renderOrderTonerBlock(e.target, printerName);
+        });
+      });
+      
+      closeOrderTonerItems.forEach(item => {
+        item.addEventListener('click', () => {
+          document.querySelector('.modal-toner').style.display = 'none';
+        });
+      });
+
+      orderGroup.addEventListener('click', (e) => {
+        if(e.target.tagName === "BUTTON") {
+          let typeOrder = e.target.classList.contains('order-main') ? 'основного' :
+             e.target.classList.contains('order-reserve') ? 'запасного' : '';
+          let printerName = e.target.dataset.printerName;
+          let result = `Заказ ${typeOrder} картриджа для ${printerName}`;
+          addItemToCart(result);
+          document.querySelector('.modal-toner').style.display = 'none';
+        }
+      });
+  };
+
 
   const fillPrinterCard = (data) => {
 
@@ -90,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h6 class="info-label">Картриджи:</h6>
             ${renderTonerInfo(tonerObjArray)}     
             <div class="info-button-group">
-            <button class="button button-secondary add-to-cart order-toner">Заказать картриджи</button>
+            <button class="button button-secondary order-toner">Заказать картриджи</button>
             <button class="button button-secondary add-to-cart order-service">Заказать обслуживание</button>
             </div>
             
@@ -121,15 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return element;
     };
-    
-
     return card;
   };
 
   const renderPrinterList = (data) => {
     wrapperPrinterList.textContent = '';
     //Обработать data.length===0
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
       let element = `Тут данных нет  😢 `;
       wrapperPrinterList.insertAdjacentHTML('beforeend', element);
     } else if (data.length < 4) {
@@ -140,7 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
           let element = fillPrinterCard(item);
           wrapperPrinterList.insertAdjacentHTML('beforeend', element);
         }
-      );      
+      );
+      renderOrderTonerStuff();      
     } else {
       wrapperPrinterList.classList.remove('wrapper');
       wrapperPrinterList.classList.add('wrapper1');
@@ -171,6 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
           
         }
       );
+      
+      renderOrderTonerStuff();
+
       /*code below is incredible. but it works
         swiper may not load immediately
       */
@@ -272,6 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnSendMessage.addEventListener('click', () => {
     let data = peripheralsArray.join('; ');
+    data += notePeripherals.value ? '; примечание: ' + notePeripherals.value : '';
     alert(`data: ${data}`);
   });
 
@@ -279,10 +331,21 @@ document.addEventListener('DOMContentLoaded', () => {
     item.setAttribute('data-bs-toggle','modal');
     item.setAttribute('data-bs-target','#modalPrinters');
   });
+  const modalToner = document.querySelector('.modal-toner');
+  document.addEventListener('click', (e) => {
+    if (!modalToner.contains(e.target)) {
+        modalToner.style.display = 'none';
+    };
+    
+  });
 
-  
-
-  
+  const limitNum = 50;  
+  notePeripherals.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/[^a-zA-Zа-яёА-ЯЁ\d ]/g,'');
+    if (e.target.value.length > limitNum) {
+      e.target.value = e.target.value.substring(0, limitNum);
+  }
+  });
 
   init();
   

@@ -99,8 +99,14 @@
 .peripherals-list_item:not(:last-child){
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
+#notePeripherals{
+    resize: none;
+    height: 5em;
+    width: 15em;
+}
 .button-primary{
-    margin-top: 65px;
+    margin-top: 55px;
+    margin-bottom: 15px;
     width: 210px;
     height: 40px;
     background: #3596F5;
@@ -362,4 +368,53 @@
 .swiper-pagination-bullet-active {
     color: #fff;
     background: #007aff;
+}
+.modal-toner{
+    display: none;
+    position: absolute;
+    width: 160px;
+    z-index: 2000;
+    background-color: #3596F5;
+    border-radius: 5px;
+}
+/*
+.modal-toner::before{
+    content: ""; 
+	border: solid transparent;
+	position: absolute; 
+ 	top: 100%;
+	left: 70px;
+	border-top-color: #cbcbcb;;
+	border-width: 9px;
+	margin-left: -1px;
+    
+}*/
+.wrapper-toner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+.title-toner{
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+.order-toner-text{
+    margin-right: 5px;
+    font-weight: bold;
+}
+.close-order-toner{
+    font-size: 1.1em;
+}
+.close-order-toner:hover{
+    color:#fff;
+    cursor: pointer;
+}
+.order-group button{
+    width: 105px;
+    margin-bottom: 5px;
+}
+.modal-active{
+    display: block;
 }
