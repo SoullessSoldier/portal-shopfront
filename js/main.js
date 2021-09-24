@@ -325,6 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let data = peripheralsArray.join('; ');
     data += notePeripherals.value ? '; примечание: ' + notePeripherals.value : '';
     alert(`data: ${data}`);
+    notePeripherals.value= '';
+    peripheralsArray = [];
+    renderPeripheralsList();
   });
 
   areaPrinters.forEach(item => {
