@@ -327,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(`data: ${data}`);
     notePeripherals.value= '';
     peripheralsArray = [];
+    btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
     renderPeripheralsList();
   });
 
