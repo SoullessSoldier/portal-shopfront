@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 document.addEventListener('DOMContentLoaded', () => {
   const objPeripheral = {
       'keyboard':'Клавиатура',
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'sound':'Наушники/колонки',
       'printer':'Принтер/Сканер/МФУ',
       'other':'Другое устройство',
-      'microphone':'Микрофон',
+      'microphone':'Микрофон для биометрии',
       'mouse':'Мышь',
       'ups':'Источник бесперебойного питания',
       'pc':'Системный блок',
@@ -19,14 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
     peripheralsList = document.querySelector('.peripherals-list'),
     btnSendMessage = document.getElementById('sendMessage'),
     modalPrinters = document.querySelector('#modalPrinters'),
+    modalOther = document.querySelector('#modalOther'),
     wrapperPrinterList = document.getElementById('wrapperPrinterList'),
     areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]'),
-    notePeripherals = document.querySelector('#notePeripherals');
+    areaOther = document.querySelectorAll('[data-peripheralid="other"]'),
+    modalOtherBtnGroup = document.querySelector('.modal-other__btn-group'),
+    notePeripherals = document.querySelector('#notePeripherals'),
+    inputOther = document.querySelector('#input-other');
 
 
   let peripheralsArray = [];
 
-  let printersArray;
+  let printersArray = [];
+
+  const limitNum = 50;
+  const validatePattern = /[^a-zA-Zа-яёА-ЯЁ\d ]/g; 
 
   const getData = async () => {
     //const data = await fetch('js/db-10-items.json');
@@ -50,6 +57,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const showModalOther = (target) => {
+    const rect = target.getBoundingClientRect();
+    const top = Math.floor(rect.top),
+      centerX = Math.floor(rect.left + rect.width / 2);    
+    modalOther.style.top = top - 110 + 'px';
+    modalOther.style.left = centerX - 125 + 'px';
+
+    modalOther.classList.toggle('modal-active');
+    inputOther.focus();
+  };
+
+  const handleOther = (e) => {
+    const target = e.target;
+    if (target.tagName === 'BUTTON'){
+      if (target.classList.contains('modal-other__cancel-btn')){
+        modalOther.classList.toggle('modal-active');
+      } else if (target.classList.contains('modal-other__send-btn')) {
+        let result = `Прочее оборудование: ${inputOther.value}`;
+        addItemToCart(result);
+        inputOther.value = '';
+        modalOther.classList.toggle('modal-active');       
+      }
+      
+      //todo: add symbol counter for inputOther?
+    }
+  };
+
   const renderOrderTonerBlock = (targetElement, printerName) => {
     let parent = targetElement.parentNode.parentNode.parentNode;
     let rect = parent.getBoundingClientRect(),
@@ -65,6 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
     modalToner.style.top = top + 'px';
     modalToner.style.left = left + 'px';
     modalToner.style.display = 'block';
+  };
+
+  const doOrderToner = (event) => {
+    if(event.target.tagName === "BUTTON") {
+      let typeOrder = event.target.classList.contains('order-main') ? 'основного' :
+         event.target.classList.contains('order-reserve') ? 'запасного' : '';
+      let printerName = event.target.dataset.printerName;
+      let result = `Заказ ${typeOrder} картриджа для ${printerName}`;
+      addItemToCart(result);
+      document.querySelector('.modal-toner').style.display = 'none';
+      orderGroup.removeEventListener('click', doOrderToner);
+    }
   };
 
   const renderOrderTonerStuff = () => {
@@ -85,16 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      orderGroup.addEventListener('click', (e) => {
-        if(e.target.tagName === "BUTTON") {
-          let typeOrder = e.target.classList.contains('order-main') ? 'основного' :
-             e.target.classList.contains('order-reserve') ? 'запасного' : '';
-          let printerName = e.target.dataset.printerName;
-          let result = `Заказ ${typeOrder} картриджа для ${printerName}`;
-          addItemToCart(result);
-          document.querySelector('.modal-toner').style.display = 'none';
-        }
-      });
+      orderGroup.addEventListener('click', doOrderToner);
   };
 
 
@@ -313,10 +350,12 @@ document.addEventListener('DOMContentLoaded', () => {
   peripheralsItemList.forEach(el => {
       el.addEventListener('click', (e)=>{
           let peripheralName = objPeripheral[e.target.dataset.peripheralid] || 'устройство не опознано';
-          if(e.target.dataset.peripheralid !== 'printer'){
+          if(!['printer','other'].includes(e.target.dataset.peripheralid)){
             addItemToCart(peripheralName);
-          } else {
+          } else if (e.target.dataset.peripheralid === 'printer'){
             renderPrinterList(printersArray);
+          } else if (e.target.dataset.peripheralid === 'other') {
+            showModalOther(e.target);
           }
       });
   });
@@ -343,13 +382,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
   });
 
-  const limitNum = 50;  
-  notePeripherals.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/[^a-zA-Zа-яёА-ЯЁ\d ]/g,'');
-    if (e.target.value.length > limitNum) {
-      e.target.value = e.target.value.substring(0, limitNum);
-  }
-  });
+  modalOtherBtnGroup.addEventListener('click', handleOther);
+
+    
+  [notePeripherals, inputOther].forEach(el => 
+    el.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(validatePattern,'');
+      if (e.target.value.length > limitNum) {
+        e.target.value = e.target.value.substring(0, limitNum);
+      }
+    })
+  );
 
   init();
   
