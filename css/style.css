@@ -88,6 +88,7 @@
     height: 500px;
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 1px;
     overflow-y: auto;
     padding-right: 5px;
 
@@ -102,13 +103,18 @@
 .peripherals-list_item:not(:last-child){
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
+.label-textarea{
+    display: block;    
+    float: left;
+    width: 14em;
+}
 #notePeripherals{
     resize: none;
     height: 5em;
     width: 15em;
 }
 .button-primary{
-    margin-top: 55px;
+    margin-top: 35px;
     margin-bottom: 15px;
     width: 210px;
     height: 40px;
@@ -438,9 +444,12 @@
     font-weight: 600;
 }
 #input-other{
-    width: 210px;
+    width: 15em;
     border: none;
-    outline:none;
+    outline: 1px solid red;
+}
+#input-other .fill{
+    outline: 1px solid green;
 }
 .modal-other__btn-group{
     width: 100%;
@@ -458,4 +467,11 @@
 /*should be the last string of code!*/
 .modal-active{
     display: block;
+}
+
+@media (max-width: 1440px){
+    .main{
+        margin-top: 5px;
+    }
+    
 }

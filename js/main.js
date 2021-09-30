@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'display':'Дисплей',
       'sound':'Наушники/колонки',
       'printer':'Принтер/Сканер/МФУ',
-      'other':'Другое устройство',
+      'other':'Прочее оборудование',
       'microphone':'Микрофон для биометрии',
       'mouse':'Мышь',
       'ups':'Источник бесперебойного питания',
@@ -19,14 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     peripheralsList = document.querySelector('.peripherals-list'),
     btnSendMessage = document.getElementById('sendMessage'),
     modalPrinters = document.querySelector('#modalPrinters'),
-    modalOther = document.querySelector('#modalOther'),
+    /*modalOther = document.querySelector('#modalOther'),*/
     wrapperPrinterList = document.getElementById('wrapperPrinterList'),
     areaPrinters = document.querySelectorAll('[data-peripheralid="printer"]'),
-    areaOther = document.querySelectorAll('[data-peripheralid="other"]'),
-    modalOtherBtnGroup = document.querySelector('.modal-other__btn-group'),
+    /*areaOther = document.querySelectorAll('[data-peripheralid="other"]'),
+    modalOtherBtnGroup = document.querySelector('.modal-other__btn-group'),*/
     notePeripherals = document.querySelector('#notePeripherals'),
-    inputOther = document.querySelector('#input-other');
-
+    labelTextarea = document.querySelector('.label-textarea');
+    itemsPanel = document.querySelector('.items-panel');
+    
+  let isOtherAdded = false;
 
   let peripheralsArray = [];
 
@@ -56,8 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(err);
     });
   };
-
-  const showModalOther = (target) => {
+  const renderOther = () => {
+    if (!isOtherAdded) {
+      const result = `Прочее оборудование`;
+      const elementOther = document.createElement('input');
+      elementOther.setAttribute('id', 'input-other');
+      elementOther.setAttribute('type', 'text');
+      elementOther.setAttribute('placeholder', 'Укажите своё оборудование!');
+      
+      addItemToCart(result);
+      itemsPanel.insertBefore(elementOther,labelTextarea);
+      const inputOther = document.querySelector('#input-other');
+      inputOther.value = '';
+      inputOther.focus();
+      isOtherAdded = true;
+      inputOther.addEventListener('input', (e) => {
+        validateInput(e);
+      });
+    }
+  };
+  /*const showModalOther = (target) => {
     const rect = target.getBoundingClientRect();
     const top = Math.floor(rect.top),
       centerX = Math.floor(rect.left + rect.width / 2);    
@@ -66,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalOther.classList.toggle('modal-active');
     inputOther.focus();
-  };
+  };*/
 
-  const handleOther = (e) => {
+  /*const handleOther = (e) => {
     const target = e.target;
     if (target.tagName === 'BUTTON'){
       if (target.classList.contains('modal-other__cancel-btn')){
@@ -82,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
       //todo: add symbol counter for inputOther?
     }
-  };
+    
+  };*/
 
   const renderOrderTonerBlock = (targetElement, printerName) => {
     let parent = targetElement.parentNode.parentNode.parentNode;
@@ -328,11 +349,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
   };
+  const removeOther = () => {
+    const inputOther = document.querySelector('#input-other');
+    inputOther.remove();
+    isOtherAdded = false;
+  };
 
   const removePeripheralItem = (index) => {
-    peripheralsArray.splice(index,1);
-    renderPeripheralsList();
-    btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
+    if (peripheralsArray[index] !== 'Прочее оборудование') {
+      peripheralsArray.splice(index,1);
+      renderPeripheralsList();
+      btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
+    } else {
+      peripheralsArray.splice(index,1);      
+      removeOther();
+      renderPeripheralsList();
+      btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
+    }
   };
 
   const addItemToCart = (item) => {
@@ -347,6 +380,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const validateInput = (e) => {
+    e.target.value = e.target.value.replace(validatePattern,'');
+    if (e.target.value.length > limitNum) {
+      e.target.value = e.target.value.substring(0, limitNum);
+    }
+  };
+
   peripheralsItemList.forEach(el => {
       el.addEventListener('click', (e)=>{
           let peripheralName = objPeripheral[e.target.dataset.peripheralid] || 'устройство не опознано';
@@ -355,7 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
           } else if (e.target.dataset.peripheralid === 'printer'){
             renderPrinterList(printersArray);
           } else if (e.target.dataset.peripheralid === 'other') {
-            showModalOther(e.target);
+            //showModalOther(e.target);
+            renderOther();
           }
       });
   });
@@ -366,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(`data: ${data}`);
     notePeripherals.value= '';
     peripheralsArray = [];
+    removeOther();
     btnSendMessage.disabled = isArrayEmpty(peripheralsArray);
     renderPeripheralsList();
   });
@@ -382,17 +424,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
   });
 
-  modalOtherBtnGroup.addEventListener('click', handleOther);
+  //modalOtherBtnGroup.addEventListener('click', handleOther);
 
     
-  [notePeripherals, inputOther].forEach(el => 
-    el.addEventListener('input', (e) => {
-      e.target.value = e.target.value.replace(validatePattern,'');
-      if (e.target.value.length > limitNum) {
-        e.target.value = e.target.value.substring(0, limitNum);
-      }
-    })
-  );
+  notePeripherals.addEventListener('input', (e) => {
+    validateInput(e);
+  });
+  
 
   init();
   
