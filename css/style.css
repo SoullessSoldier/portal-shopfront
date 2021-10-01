@@ -60,6 +60,7 @@
     font-size: 1em;
 }
 .peripherals-item{
+    cursor: pointer;
     opacity: 0;
     -webkit-transition: opacity 0.2s ease-in-out;
        -moz-transition: opacity 0.2s ease-in-out;
@@ -69,7 +70,7 @@
 }
 .peripherals-item:hover{
     opacity: 1;
-    cursor: pointer;
+    
     
 }
 .items-panel{
@@ -445,8 +446,12 @@
 }
 #input-other{
     width: 15em;
+    border-radius: 2px;
     border: none;
-    outline: 1px solid red;
+    outline: 1px solid black;
+}
+#input-other.warn {
+    outline: 2px solid red;
 }
 #input-other .fill{
     outline: 1px solid green;
